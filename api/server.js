@@ -26,7 +26,7 @@ server.use((err, req, res, next) => {
   console.log(err);
   res
     .status(err.status || 500)
-    .json({ message: `Something went wrong: ${err.status} ${err.message}` });
+    .json({ message: err.message || "Something went wrong" });
 });
 
 module.exports = server;
