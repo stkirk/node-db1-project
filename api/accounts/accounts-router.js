@@ -1,8 +1,13 @@
 const router = require("express").Router();
+const Posts = require("./accounts-model");
 
 router.get("/", (req, res, next) => {
   // DO YOUR MAGIC
-  res.send("hello from accounts");
+  Posts.getAll()
+    .then((posts) => {
+      res.status(200).json(posts);
+    })
+    .catch(next);
 });
 
 router.get("/:id", (req, res, next) => {
