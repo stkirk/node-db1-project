@@ -48,8 +48,12 @@ router.put("/:id", checkAccountId, checkAccountPayload, (req, res, next) => {
     .catch(next);
 });
 
-router.delete("/:id", (req, res, next) => {
-  // DO YOUR MAGIC
+router.delete("/:id", checkAccountId, (req, res, next) => {
+  Accounts.deleteById(req.params.id)
+    .then((deletedAccount) => {
+      res.status(200).json(deletedAccount);
+    })
+    .catch(next);
 });
 
 // router.use((err, req, res, next) => {
