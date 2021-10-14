@@ -1,12 +1,15 @@
 const express = require("express");
 // const router = require("express").Router();
 const Accounts = require("./accounts-model");
-const { checkAccountId } = require("./accounts-middleware");
+const {
+  checkAccountId,
+  checkAccountPayload,
+  checkAccountNameUnique,
+} = require("./accounts-middleware");
 
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
-  // DO YOUR MAGIC
   Accounts.getAll()
     .then((accounts) => {
       res.status(200).json(accounts);
@@ -18,9 +21,21 @@ router.get("/:id", checkAccountId, (req, res, next) => {
   res.status(200).json(req.account);
 });
 
-router.post("/", (req, res, next) => {
-  // DO YOUR MAGIC
-});
+router.post(
+  "/",
+  checkAccountPayload,
+  checkAccountNameUnique,
+  (req, res, next) => {
+    Accounts.create({
+      name: req.body.name.trim(),
+      budget: req.body.budget,
+    })
+      .then((newAccount) => {
+        res.status(201).json(newAccount);
+      })
+      .catch(next);
+  }
+);
 
 router.put("/:id", (req, res, next) => {
   // DO YOUR MAGIC
