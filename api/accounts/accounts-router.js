@@ -37,8 +37,15 @@ router.post(
   }
 );
 
-router.put("/:id", (req, res, next) => {
-  // DO YOUR MAGIC
+router.put("/:id", checkAccountId, checkAccountPayload, (req, res, next) => {
+  Accounts.updateById(req.params.id, {
+    name: req.body.name.trim(),
+    budget: req.body.budget,
+  })
+    .then((updatedAccount) => {
+      res.status(200).json(updatedAccount);
+    })
+    .catch(next);
 });
 
 router.delete("/:id", (req, res, next) => {
