@@ -1,6 +1,9 @@
-const router = require("express").Router();
+const express = require("express");
+// const router = require("express").Router();
 const Accounts = require("./accounts-model");
 const { checkAccountId } = require("./accounts-middleware");
+
+const router = express.Router();
 
 router.get("/", (req, res, next) => {
   // DO YOUR MAGIC
@@ -27,9 +30,9 @@ router.delete("/:id", (req, res, next) => {
   // DO YOUR MAGIC
 });
 
-router.use((err, req, res, next) => {
-  // eslint-disable-line
-  // DO YOUR MAGIC
-});
+// router.use((err, req, res, next) => {
+//   // eslint-disable-line
+//   // DO YOUR MAGIC
+// });
 
 module.exports = router;
