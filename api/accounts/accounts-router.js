@@ -50,8 +50,8 @@ router.put("/:id", checkAccountId, checkAccountPayload, (req, res, next) => {
 
 router.delete("/:id", checkAccountId, (req, res, next) => {
   Accounts.deleteById(req.params.id)
-    .then((deletedAccount) => {
-      res.status(200).json(deletedAccount);
+    .then(() => {
+      res.status(200).json(req.account);
     })
     .catch(next);
 });

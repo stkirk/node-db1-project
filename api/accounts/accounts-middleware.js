@@ -10,7 +10,8 @@ const checkAccountPayload = (req, res, next) => {
     next({ status, message: "name of account must be a string" });
   } else if (name.trim().length < 3 || name.trim().length > 100) {
     next({ status, message: "name of account must be between 3 and 100" });
-  } else if (typeof budget !== "number") {
+  } else if (typeof budget !== "number" || isNaN(budget)) {
+    // isNan(value) evaluates to true if the value is Nan
     next({ status, message: "budget of account must be a number" });
   } else if (budget < 0 || budget > 1000000) {
     next({ status, message: "budget of account is too large or too small" });
@@ -38,11 +39,11 @@ const checkAccountId = (req, res, next) => {
   const { id } = req.params;
   Accounts.getById(id)
     .then((account) => {
-      if (account) {
+      if (!account) {
+        next({ status: 404, message: "account not found" });
+      } else {
         req.account = account;
         next();
-      } else {
-        next({ status: 404, message: "account not found" });
       }
     })
     .catch(next);
